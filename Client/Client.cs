@@ -9,8 +9,9 @@ namespace Client
     public class ChatClient
     {
         NetworkStream stream;
-        TcpClient tcpClient = new TcpClient();
-        TcpListener tcpListener = TcpListener.Create(PORT);
+        TcpClient tcpClient;
+        TcpListener listener;
+
         private const int PORT = 500;
 
         /// <summary>

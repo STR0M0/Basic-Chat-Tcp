@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
-using System.Net;
 using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Server
 {
     class ChatServer
     {
-        TcpListener chatServer;
+        private const int PORT = 500;
+        private Dictionary<string, TcpClient> userToConnections = new Dictionary<string, TcpClient>();
+        TcpListener tcpListener;
         NetworkStream stream;
 
-        private const int PORT = 500;
-
-        private Dictionary<string, TcpClient> userToConnections = new Dictionary<string, TcpClient>();
-
         /// <summary>
-        /// 
+        /// Default constructor
         /// </summary>
         public static void Main()
         {
@@ -25,45 +22,24 @@ namespace Server
         }
 
         /// <summary>
-        /// 
+        /// Listens for data from clients 
         /// </summary>
         public ChatServer()
         {
-            chatServer = TcpListener.Create(PORT);
-            chatServer.Start();
+            tcpListener = TcpListener.Create(PORT);
+            tcpListener.Start();
             while (true)
             {
-
                 //check if there are any pending connection requests
-                if (chatServer.Pending())
+                if (tcpListener.Pending())
                 {
                     //if there are pending requests create a new connection
-                    TcpClient chatConnection = chatServer.AcceptTcpClient();
+                    TcpClient chatConnection = tcpListener.AcceptTcpClient();
                     Console.WriteLine("Connected");
                     ReceiveUser(chatConnection);
                     ReceiveMsg(chatConnection);
                 }
             }
-        }
-
-        //private async void ListenForClientConnections()
-        //{
-        //    //start the chat server
-        //    //if there are pending requests create a new connection
-        //    TcpClient chatConnection = await chatServer.AcceptTcpClientAsync();
-        //    Console.WriteLine("Connected");
-        //    ReceiveUser(chatConnection);
-        //    ReceiveMsg(chatConnection);
-        //}
-
-        //Create new class 
-        //Create method for encoding 
-        /// <summary>
-        /// 
-        /// </summary>
-        public static void DecodeStream()
-        {
-
         }
 
         /// <summary>
@@ -76,12 +52,10 @@ namespace Server
 
             if (stream.CanRead)
             {
-                byte[] bytes = new byte[connection.ReceiveBufferSize];
-                Int32 numBytes = stream.Read(bytes, 0, connection.ReceiveBufferSize);
-                string userName = Encoding.ASCII.GetString(bytes, 0, numBytes);
-                Console.WriteLine(userName);
-
+                string userName = Decode(stream, connection);
                 userToConnections.Add(userName, connection);
+                userToConnections.Add(userName, connection);
+                Console.WriteLine(userName);
             }
         }
 
@@ -91,22 +65,19 @@ namespace Server
         /// <param name="msg"></param>
         public void ReceiveMsg(TcpClient connection)
         {
-            TcpClient usersConnection;
             stream = connection.GetStream();
 
             if (stream.CanRead)
             {
-                byte[] bytes = new byte[connection.ReceiveBufferSize];
-                stream.Read(bytes, 0, (int)connection.ReceiveBufferSize);
-                string msg = Encoding.UTF8.GetString(bytes);
-                string username = getUserNameForConnection(connection);
-                Console.WriteLine(username + msg);
+                string msg = Decode(stream, connection);
+                string userName = getUserNameForConnection(connection);
+                Console.WriteLine(userName + msg);
             }
 
         }
 
         /// <summary>
-        /// 
+        /// Matches the connection to the username that is sending information to the server
         /// </summary>
         /// <param name="connection"></param>
         /// <returns></returns>
@@ -141,5 +112,24 @@ namespace Server
         
         }
         
+        /// <summary>
+        /// Decodes the network stream into it's ASCII values and returns the results as a string
+        /// </summary>
+        public string Decode(NetworkStream stream, TcpClient connection)
+        {
+            byte[] bytes = new byte[connection.ReceiveBufferSize];
+            Int32 numBytes = stream.Read(bytes, 0, connection.ReceiveBufferSize);
+            string data = Encoding.ASCII.GetString(bytes, 0, numBytes);
+            return data;
+        }
     }
 }
+        //private async void ListenForClientConnections()
+        //{
+        //    //start the chat server
+        //    //if there are pending requests create a new connection
+        //    TcpClient chatConnection = await chatServer.AcceptTcpClientAsync();
+        //    Console.WriteLine("Connected");
+        //    ReceiveUser(chatConnection);
+        //    ReceiveMsg(chatConnection);
+        //}
