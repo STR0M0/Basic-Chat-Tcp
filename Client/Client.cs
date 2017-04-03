@@ -8,11 +8,11 @@ namespace Client
 {
     public class ChatClient
     {
+        private const int PORT = 500;
         NetworkStream stream;
-        TcpClient tcpClient;
+        TcpClient client;
         TcpListener listener;
 
-        private const int PORT = 500;
 
         /// <summary>
         /// The main entry point for the application.
@@ -25,15 +25,6 @@ namespace Client
             Application.Run(new ConnectForm(new ChatClient()));
         }
 
-        public ChatClient()
-        {
-            //listen for data from server
-        }
-
-        private void FigureOutIfMsgOrUser(string data)
-        {
-            // Figure out
-        }
 
         /// <summary>
         /// This is called when the ConnectForm btnSubmit is pressed.
@@ -43,16 +34,16 @@ namespace Client
         public void ConnectToServer(string ipAddress, string userName)
         {
             //conenct to ipAdress; server
-            tcpClient.Connect(ipAddress, PORT);
+            client.Connect(ipAddress, PORT);
             SendUserName(userName);
         }
 
         /// <summary>
-        /// 
+        /// Sends user to the server
         /// </summary>
         public void SendUserName(string user)
         {
-            stream = tcpClient.GetStream();
+            stream = client.GetStream();
             if (stream.CanWrite)
             {
                 Byte[] sendBytes = Encoding.UTF8.GetBytes(user);
@@ -61,17 +52,34 @@ namespace Client
         }
 
         /// <summary>
-        /// This sends a message to the server
+        /// Sends a message to the server
         /// </summary>
         /// <param name="msg"></param>
         public void SendMessage(string msg)
         {
-            stream = tcpClient.GetStream();
+            stream = client.GetStream();
             if(stream.CanWrite)
             {
                 Byte[] sendBytes = Encoding.UTF8.GetBytes(msg);
                 stream.Write(sendBytes, 0, sendBytes.Length);
             }
+        }
+
+        /// <summary>
+        /// Listens for data from the server
+        /// </summary>
+        public ChatClient()
+        {
+         
+        }
+
+        /// <summary>
+        /// Figures out if data received is a user of message 
+        /// </summary>
+        /// <param name="data"></param>
+        private void FigureOutIfMsgOrUser(string data)
+        {
+            
         }
 
         /// <summary>

@@ -10,7 +10,8 @@ namespace Server
     {
         private const int PORT = 500;
         private Dictionary<string, TcpClient> userToConnections = new Dictionary<string, TcpClient>();
-        TcpListener tcpListener;
+        Utils utils;
+        TcpListener Listener;
         NetworkStream stream;
 
         /// <summary>
@@ -26,15 +27,15 @@ namespace Server
         /// </summary>
         public ChatServer()
         {
-            tcpListener = TcpListener.Create(PORT);
-            tcpListener.Start();
+            Listener = TcpListener.Create(PORT);
+            Listener.Start();
             while (true)
             {
                 //check if there are any pending connection requests
-                if (tcpListener.Pending())
+                if (Listener.Pending())
                 {
                     //if there are pending requests create a new connection
-                    TcpClient chatConnection = tcpListener.AcceptTcpClient();
+                    TcpClient chatConnection = Listener.AcceptTcpClient();
                     Console.WriteLine("Connected");
                     ReceiveUser(chatConnection);
                     ReceiveMsg(chatConnection);
@@ -43,7 +44,8 @@ namespace Server
         }
 
         /// <summary>
-        /// 
+        /// Gets username from client and decodes it into it's ASCII value
+        /// Prints username to console
         /// </summary>
         /// <param name="connection"></param>
         public void ReceiveUser(TcpClient connection)
@@ -52,15 +54,15 @@ namespace Server
 
             if (stream.CanRead)
             {
-                string userName = Decode(stream, connection);
-                userToConnections.Add(userName, connection);
+                string userName = utils.Decode(stream, connection);
                 userToConnections.Add(userName, connection);
                 Console.WriteLine(userName);
             }
         }
 
         /// <summary>
-        /// 
+        /// Gets message from client and decodes it into it's ASCII value 
+        /// Prints username to console
         /// </summary>
         /// <param name="msg"></param>
         public void ReceiveMsg(TcpClient connection)
@@ -69,7 +71,7 @@ namespace Server
 
             if (stream.CanRead)
             {
-                string msg = Decode(stream, connection);
+                string msg = utils.Decode(stream, connection);
                 string userName = getUserNameForConnection(connection);
                 Console.WriteLine(userName + msg);
             }
@@ -110,17 +112,6 @@ namespace Server
         public static void SendMsgToAll(string user, string msg)
         {
         
-        }
-        
-        /// <summary>
-        /// Decodes the network stream into it's ASCII values and returns the results as a string
-        /// </summary>
-        public string Decode(NetworkStream stream, TcpClient connection)
-        {
-            byte[] bytes = new byte[connection.ReceiveBufferSize];
-            Int32 numBytes = stream.Read(bytes, 0, connection.ReceiveBufferSize);
-            string data = Encoding.ASCII.GetString(bytes, 0, numBytes);
-            return data;
         }
     }
 }
