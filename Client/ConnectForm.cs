@@ -17,7 +17,7 @@ namespace Client
         /// </summary>
         public ConnectForm(ChatClient client)
         {
-            this.client = client;
+            this.client = client; //What does this do?
             InitializeComponent();
         }
 
