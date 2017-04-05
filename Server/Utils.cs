@@ -11,7 +11,7 @@ namespace Server
         /// <summary>
         /// Decodes the network stream into it's ASCII values and returns the results as a string
         /// </summary>
-        public string Decode(NetworkStream stream, TcpClient connection)
+        public static string Decode(NetworkStream stream, TcpClient connection)
         {
             byte[] bytes = new byte[connection.ReceiveBufferSize];
             Int32 numBytes = stream.Read(bytes, 0, connection.ReceiveBufferSize);

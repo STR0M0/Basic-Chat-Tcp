@@ -10,7 +10,6 @@ namespace Server
     {
         private const int PORT = 500;
         private Dictionary<string, TcpClient> userToConnections = new Dictionary<string, TcpClient>();
-        Utils utils;
         TcpListener Listener;
         NetworkStream stream;
 
@@ -54,7 +53,7 @@ namespace Server
 
             if (stream.CanRead)
             {
-                string userName = utils.Decode(stream, connection);
+                string userName = Utils.Decode(stream, connection);
                 userToConnections.Add(userName, connection);
                 Console.WriteLine(userName);
             }
@@ -71,9 +70,9 @@ namespace Server
 
             if (stream.CanRead)
             {
-                string msg = utils.Decode(stream, connection);
+                string msg = Utils.Decode(stream, connection);
                 string userName = getUserNameForConnection(connection);
-                Console.WriteLine(userName + msg);
+                Console.WriteLine("msg" + userName + msg);
             }
 
         }
@@ -101,7 +100,6 @@ namespace Server
         public static void SendUserToAll(string user)
         {
             
-
         }
 
         /// <summary>

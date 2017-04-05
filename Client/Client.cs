@@ -10,7 +10,7 @@ namespace Client
     {
         private const int PORT = 500;
         NetworkStream stream;
-        TcpClient client;
+        TcpClient client = new TcpClient();
         TcpListener listener;
 
 
