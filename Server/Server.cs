@@ -13,6 +13,10 @@ namespace Server
         TcpListener Listener;
         NetworkStream stream;
 
+        String userName;
+        String message;
+    
+
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -38,6 +42,8 @@ namespace Server
                     Console.WriteLine("Connected");
                     ReceiveUser(chatConnection);
                     ReceiveMsg(chatConnection);
+                    //SendMsgToAll();
+                    //SendUserToAll();
                 }
             }
         }
@@ -53,10 +59,11 @@ namespace Server
 
             if (stream.CanRead)
             {
-                string userName = Utils.Decode(stream, connection);
+                userName = "User: " + Utils.ReceiveInformation(stream, connection);
                 userToConnections.Add(userName, connection);
                 Console.WriteLine(userName);
             }
+
         }
 
         /// <summary>
@@ -70,11 +77,10 @@ namespace Server
 
             if (stream.CanRead)
             {
-                string msg = Utils.Decode(stream, connection);
-                string userName = getUserNameForConnection(connection);
-                Console.WriteLine("msg" + userName + msg);
+               message = getUserNameForConnection(connection) + " " + Utils.ReceiveInformation(stream, connection);
+                Console.WriteLine(message);
             }
-
+          
         }
 
         /// <summary>
@@ -97,9 +103,9 @@ namespace Server
         /// 
         /// </summary>
         /// <param name="user"></param>
-        public static void SendUserToAll(string user)
+        public void SendUserToAll()
         {
-            
+            Utils.SendInformation(userName);
         }
 
         /// <summary>
@@ -107,9 +113,9 @@ namespace Server
         /// </summary>
         /// <param name="nick"></param>
         /// <param name="msg"></param>
-        public static void SendMsgToAll(string user, string msg)
+        public void SendMsgToAll()
         {
-        
+            Utils.SendInformation(message);
         }
     }
 }
