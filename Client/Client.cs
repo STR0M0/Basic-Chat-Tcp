@@ -3,6 +3,7 @@ using System;
 using System.Windows.Forms;
 using System.Net.Sockets;
 using System.Text;
+using Simple_Chat_Form_App;
 
 namespace Client
 {
@@ -10,8 +11,11 @@ namespace Client
     {
         private const int PORT = 500;
         NetworkStream stream;
-        TcpClient client = new TcpClient(); //Test
-        TcpListener listener;
+        TcpClient client = new TcpClient();
+        ChatForm chatform;
+        string data;
+     
+        
 
 
         /// <summary>
@@ -70,6 +74,17 @@ namespace Client
         /// </summary>
         public ChatClient()
         {
+            TcpListener listener;
+            listener = TcpListener.Create(PORT);
+            listener.Start();
+            while (true)
+            {
+                if(listener.Pending())
+                {
+                    TcpClient chatConnection = listener.AcceptTcpClient();
+                    ReceiveData(chatConnection);
+                }
+            }
          
         }
 
@@ -85,16 +100,24 @@ namespace Client
         /// <summary>
         /// 
         /// </summary>
-        public void ReceiveUsers()
+        public void ReceiveData(TcpClient connection)
         {
+            stream = connection.GetStream();
 
-        }
+            if(stream.CanRead)
+            {
+                this.data = Utils.ReceiveInformation(stream, connection);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public void ReceiveMsgs()
-        {
+                if (data.Contains("user"))
+                {
+                    chatform.ReceiveUser(data);
+                }
+
+                else
+                {
+                    chatform.ReceiveMessage(data);
+                }
+            }
 
         }
    

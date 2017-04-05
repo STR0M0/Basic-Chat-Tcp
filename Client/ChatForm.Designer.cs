@@ -36,40 +36,40 @@
             // 
             // chatTxtBox
             // 
-            this.chatTxtBox.Location = new System.Drawing.Point(6, 6);
-            this.chatTxtBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chatTxtBox.Location = new System.Drawing.Point(12, 12);
+            this.chatTxtBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chatTxtBox.Name = "chatTxtBox";
             this.chatTxtBox.ReadOnly = true;
-            this.chatTxtBox.Size = new System.Drawing.Size(264, 210);
+            this.chatTxtBox.Size = new System.Drawing.Size(524, 400);
             this.chatTxtBox.TabIndex = 0;
             this.chatTxtBox.Text = "";
             // 
             // userTxtBox
             // 
-            this.userTxtBox.Location = new System.Drawing.Point(283, 6);
-            this.userTxtBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.userTxtBox.Location = new System.Drawing.Point(566, 12);
+            this.userTxtBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.userTxtBox.Name = "userTxtBox";
             this.userTxtBox.ReadOnly = true;
-            this.userTxtBox.Size = new System.Drawing.Size(125, 210);
+            this.userTxtBox.Size = new System.Drawing.Size(246, 400);
             this.userTxtBox.TabIndex = 1;
             this.userTxtBox.Text = "";
             // 
             // msgTxtBox
             // 
-            this.msgTxtBox.Location = new System.Drawing.Point(9, 226);
-            this.msgTxtBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.msgTxtBox.Location = new System.Drawing.Point(18, 435);
+            this.msgTxtBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.msgTxtBox.Name = "msgTxtBox";
-            this.msgTxtBox.Size = new System.Drawing.Size(262, 90);
+            this.msgTxtBox.Size = new System.Drawing.Size(520, 169);
             this.msgTxtBox.TabIndex = 2;
             this.msgTxtBox.Text = "";
             // 
             // btnSend
             // 
             this.btnSend.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSend.Location = new System.Drawing.Point(300, 260);
-            this.btnSend.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnSend.Location = new System.Drawing.Point(600, 500);
+            this.btnSend.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(78, 25);
+            this.btnSend.Size = new System.Drawing.Size(156, 48);
             this.btnSend.TabIndex = 3;
             this.btnSend.Text = "Send";
             this.btnSend.UseVisualStyleBackColor = true;
@@ -77,14 +77,14 @@
             // 
             // ChatForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(412, 327);
+            this.ClientSize = new System.Drawing.Size(824, 629);
             this.Controls.Add(this.btnSend);
             this.Controls.Add(this.msgTxtBox);
             this.Controls.Add(this.userTxtBox);
             this.Controls.Add(this.chatTxtBox);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ChatForm";
             this.Text = "Form1";
             this.ResumeLayout(false);

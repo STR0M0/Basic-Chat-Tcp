@@ -10,11 +10,12 @@ namespace Server
     {
         private const int PORT = 500;
         private Dictionary<string, TcpClient> userToConnections = new Dictionary<string, TcpClient>();
-        TcpListener Listener;
+        TcpClient cleint = new TcpClient();
+        TcpListener listener;
         NetworkStream stream;
 
-        String userName;
-        String message;
+        string userName;
+        string message;
     
 
         /// <summary>
@@ -30,20 +31,20 @@ namespace Server
         /// </summary>
         public ChatServer()
         {
-            Listener = TcpListener.Create(PORT);
-            Listener.Start();
+            listener = TcpListener.Create(PORT);
+            listener.Start();
             while (true)
             {
                 //check if there are any pending connection requests
-                if (Listener.Pending())
+                if (listener.Pending())
                 {
                     //if there are pending requests create a new connection
-                    TcpClient chatConnection = Listener.AcceptTcpClient();
+                    TcpClient chatConnection = listener.AcceptTcpClient();
                     Console.WriteLine("Connected");
                     ReceiveUser(chatConnection);
                     ReceiveMsg(chatConnection);
-                    //SendMsgToAll();
-                    //SendUserToAll();
+                    SendMsgToAll();
+                    SendUserToAll();
                 }
             }
         }
@@ -59,7 +60,7 @@ namespace Server
 
             if (stream.CanRead)
             {
-                userName = "User: " + Utils.ReceiveInformation(stream, connection);
+                this.userName = "User: " + Utils.ReceiveInformation(stream, connection);
                 userToConnections.Add(userName, connection);
                 Console.WriteLine(userName);
             }
@@ -77,7 +78,7 @@ namespace Server
 
             if (stream.CanRead)
             {
-               message = getUserNameForConnection(connection) + " " + Utils.ReceiveInformation(stream, connection);
+                this.message = getUserNameForConnection(connection) + " " + Utils.ReceiveInformation(stream, connection);
                 Console.WriteLine(message);
             }
           

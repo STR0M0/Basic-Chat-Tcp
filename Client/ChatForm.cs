@@ -18,5 +18,15 @@ namespace Simple_Chat_Form_App
         {
             client.SendMessage(this.msgTxtBox.Text);
         }
+
+        public void ReceiveMessage(string message)
+        {
+            msgTxtBox.Text += message;
+        }
+
+        public void ReceiveUser(string user)
+        {
+            userTxtBox.Text += user;
+        }
     }
 }
