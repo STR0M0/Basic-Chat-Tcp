@@ -17,6 +17,7 @@ namespace Simple_Chat_Form_App
         private void btnSend_Click(object sender, EventArgs e)
         {
             client.SendMessage(this.msgTxtBox.Text);
+            msgTxtBox.Clear();
         }
 
         public void ReceiveMessage(string message)

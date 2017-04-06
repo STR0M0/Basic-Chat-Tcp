@@ -12,12 +12,10 @@ namespace Client
         private const int PORT = 500;
         NetworkStream stream;
         TcpClient client = new TcpClient();
-        ChatForm chatform;
+        TcpListener listener;
+        ChatForm chatForm;
         string data;
      
-        
-
-
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -28,7 +26,6 @@ namespace Client
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new ConnectForm(new ChatClient()));
         }
-
 
         /// <summary>
         /// This is called when the ConnectForm btnSubmit is pressed.
@@ -74,7 +71,6 @@ namespace Client
         /// </summary>
         public ChatClient()
         {
-            TcpListener listener;
             listener = TcpListener.Create(PORT);
             listener.Start();
             while (true)
@@ -86,15 +82,6 @@ namespace Client
                 }
             }
          
-        }
-
-        /// <summary>
-        /// Figures out if data received is a user of message 
-        /// </summary>
-        /// <param name="data"></param>
-        private void FigureOutIfMsgOrUser(string data)
-        {
-            
         }
 
         /// <summary>
@@ -110,12 +97,12 @@ namespace Client
 
                 if (data.Contains("user"))
                 {
-                    chatform.ReceiveUser(data);
+                    chatForm.ReceiveUser(data);
                 }
 
                 else
                 {
-                    chatform.ReceiveMessage(data);
+                    chatForm.ReceiveMessage(data);
                 }
             }
 

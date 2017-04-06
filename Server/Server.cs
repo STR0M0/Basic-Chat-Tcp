@@ -120,12 +120,3 @@ namespace Server
         }
     }
 }
-        //private async void ListenForClientConnections()
-        //{
-        //    //start the chat server
-        //    //if there are pending requests create a new connection
-        //    TcpClient chatConnection = await chatServer.AcceptTcpClientAsync();
-        //    Console.WriteLine("Connected");
-        //    ReceiveUser(chatConnection);
-        //    ReceiveMsg(chatConnection);
-        //}
