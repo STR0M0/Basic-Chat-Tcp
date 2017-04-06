@@ -26,7 +26,7 @@ namespace Client
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new ConnectForm(new ChatClient()));
         }
-
+        
         /// <summary>
         /// This is called when the ConnectForm btnSubmit is pressed.
         /// </summary>
@@ -37,6 +37,7 @@ namespace Client
             //conenct to ipAdress; server
             client.Connect(ipAddress, PORT);
             SendUserName(userName);
+            ReceiveData(client);
         }
 
         /// <summary>
@@ -66,26 +67,10 @@ namespace Client
             }
         }
 
-        /// <summary>
-        /// Listens for data from the server
-        /// </summary>
-        public ChatClient()
-        {
-            listener = TcpListener.Create(PORT);
-            listener.Start();
-            while (true)
-            {
-                if(listener.Pending())
-                {
-                    TcpClient chatConnection = listener.AcceptTcpClient();
-                    ReceiveData(chatConnection);
-                }
-            }
-         
-        }
+       
 
         /// <summary>
-        /// 
+        /// Needs an asychronous setup
         /// </summary>
         public void ReceiveData(TcpClient connection)
         {
@@ -95,7 +80,7 @@ namespace Client
             {
                 this.data = Utils.ReceiveInformation(stream, connection);
 
-                if (data.Contains("user"))
+                if (data.StartsWith("User"))
                 {
                     chatForm.ReceiveUser(data);
                 }

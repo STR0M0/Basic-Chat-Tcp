@@ -22,9 +22,8 @@ namespace Server
         /// 
         /// </summary>
         /// <param name="data"></param>
-        public static void SendInformation(string data)
+        public static void SendInformation(TcpClient client, string data)
         {
-            TcpClient client = new TcpClient();
             NetworkStream stream = client.GetStream();
 
             if (stream.CanWrite)

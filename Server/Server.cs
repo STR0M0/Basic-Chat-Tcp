@@ -10,8 +10,8 @@ namespace Server
     {
         private const int PORT = 500;
         private Dictionary<string, TcpClient> userToConnections = new Dictionary<string, TcpClient>();
-        TcpClient cleint = new TcpClient();
         TcpListener listener;
+        TcpClient client;
         NetworkStream stream;
 
         string userName;
@@ -33,19 +33,27 @@ namespace Server
         {
             listener = TcpListener.Create(PORT);
             listener.Start();
+
+            // Wait until first connection is made
             while (true)
             {
                 //check if there are any pending connection requests
                 if (listener.Pending())
                 {
                     //if there are pending requests create a new connection
-                    TcpClient chatConnection = listener.AcceptTcpClient();
+                    client = listener.AcceptTcpClient();
                     Console.WriteLine("Connected");
-                    ReceiveUser(chatConnection);
-                    ReceiveMsg(chatConnection);
-                    SendMsgToAll();
-                    SendUserToAll();
+                    ReceiveUser(client);
+                    break;
                 }
+            }
+
+            // Keep waiting and receiving messages from the client
+            while (true)
+            {
+                ReceiveMsg(client);
+                SendMsgToAll();
+                SendUserToAll();
             }
         }
 
@@ -106,7 +114,7 @@ namespace Server
         /// <param name="user"></param>
         public void SendUserToAll()
         {
-            Utils.SendInformation(userName);
+            Utils.SendInformation(client, userName);
         }
 
         /// <summary>
@@ -116,7 +124,7 @@ namespace Server
         /// <param name="msg"></param>
         public void SendMsgToAll()
         {
-            Utils.SendInformation(message);
+            Utils.SendInformation(client, message);
         }
     }
 }
