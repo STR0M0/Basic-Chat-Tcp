@@ -17,9 +17,9 @@ namespace Server
             string data = Encoding.ASCII.GetString(bytes, 0, numBytes);
             return data;
         }
-        
+
         /// <summary>
-        /// 
+        /// Encodes the netwrok stream into bytes and sends information
         /// </summary>
         /// <param name="data"></param>
         public static void SendInformation(TcpClient client, string data)

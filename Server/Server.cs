@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
-using System.Text;
+using System.Threading;
 
 
 namespace Server
@@ -17,10 +17,6 @@ namespace Server
         string userName;
         string message;
     
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
         public static void Main()
         {
             ChatServer server = new ChatServer();
@@ -108,20 +104,11 @@ namespace Server
             return userName;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="user"></param>
         public void SendUserToAll()
         {
             Utils.SendInformation(client, userName);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="nick"></param>
-        /// <param name="msg"></param>
         public void SendMsgToAll()
         {
             Utils.SendInformation(client, message);

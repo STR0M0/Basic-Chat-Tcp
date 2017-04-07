@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Net.Sockets;
 using System.Text;
 using Simple_Chat_Form_App;
+using System.Threading;
 
 namespace Client
 {
@@ -12,13 +13,9 @@ namespace Client
         private const int PORT = 500;
         NetworkStream stream;
         TcpClient client = new TcpClient();
-        TcpListener listener;
         ChatForm chatForm;
         string data;
      
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
         [STAThread]
         public static void Main()
         {
@@ -27,6 +24,10 @@ namespace Client
             Application.Run(new ConnectForm(new ChatClient()));
         }
         
+        public ChatClient()
+        {
+
+        }
         /// <summary>
         /// This is called when the ConnectForm btnSubmit is pressed.
         /// </summary>
@@ -34,10 +35,8 @@ namespace Client
         /// <param name="userName"></param>
         public void ConnectToServer(string ipAddress, string userName)
         {
-            //conenct to ipAdress; server
             client.Connect(ipAddress, PORT);
             SendUserName(userName);
-            ReceiveData(client);
         }
 
         /// <summary>
@@ -67,16 +66,11 @@ namespace Client
             }
         }
 
-       
-
-        /// <summary>
-        /// Needs an asychronous setup
-        /// </summary>
         public void ReceiveData(TcpClient connection)
         {
             stream = connection.GetStream();
 
-            if(stream.CanRead)
+            if (stream.CanRead)
             {
                 this.data = Utils.ReceiveInformation(stream, connection);
 
@@ -90,8 +84,6 @@ namespace Client
                     chatForm.ReceiveMessage(data);
                 }
             }
-
         }
-   
     }
 }

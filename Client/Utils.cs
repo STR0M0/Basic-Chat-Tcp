@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
@@ -9,7 +7,6 @@ namespace Client
 {
     class Utils
     {
-
         /// <summary>
         /// Decodes the network stream into it's ASCII values and returns the results as a string
         /// </summary>
@@ -22,7 +19,7 @@ namespace Client
         }
 
         /// <summary>
-        /// 
+        /// Encodes the netwrok stream into bytes and sends information
         /// </summary>
         /// <param name="data"></param>
         public static void SendInformation(string data)
