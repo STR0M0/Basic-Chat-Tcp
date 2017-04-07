@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Net;
 using System.Net.Sockets;
 
 public abstract class UserConnection
@@ -10,7 +7,12 @@ public abstract class UserConnection
   public readonly NetworkStream stream;
   public readonly string userName;
   byte[] data;
-
+  
+  /// <summary>
+  /// 
+  /// </summary>
+  /// <param name="client"></param>
+  /// <param name="userName"></param>
   public UserConnection(TcpClient client, string userName)
   {
     this.client = client;
@@ -22,6 +24,9 @@ public abstract class UserConnection
     WaitForData();
   }
 
+  /// <summary>
+  /// 
+  /// </summary>
   private void WaitForData()
   {
     Console.WriteLine("Wait");
@@ -29,8 +34,11 @@ public abstract class UserConnection
     stream.BeginRead(data, 0, data.Length, OnReadData, null);
   }
 
-  void OnReadData(
-    IAsyncResult ar)
+  /// <summary>
+  /// 
+  /// </summary>
+  /// <param name="ar"></param>
+  void OnReadData(IAsyncResult ar)
   {
     Console.WriteLine("Read");
 
@@ -50,5 +58,10 @@ public abstract class UserConnection
     WaitForData();
   }
 
+  /// <summary>
+  /// 
+  /// </summary>
+  /// <param name="type"></param>
+  /// <param name="message"></param>
   protected abstract void OnRead(MessageType type, string message);
 }

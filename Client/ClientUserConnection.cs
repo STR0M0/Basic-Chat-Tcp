@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Net.Sockets;
 
 public class ClientUserConnection : UserConnection

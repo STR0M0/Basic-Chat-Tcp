@@ -6,15 +6,26 @@ using System.Net.Sockets;
 public class Utils
 {
   /// <summary>
-  /// Decodes the network stream into it's ASCII values and returns the results as a string
+  /// 
   /// </summary>
+  /// <param name="stream"></param>
+  /// <param name="connection"></param>
+  /// <param name="type"></param>
+  /// <returns></returns>
   public static string ReceiveInformation(NetworkStream stream, TcpClient connection, out MessageType type)
   {
     byte[] bytes = new byte[connection.ReceiveBufferSize];
     int length = stream.Read(bytes, 0, bytes.Length);
     return ReceiveInformation(bytes, length, out type);
   }
-
+  
+  /// <summary>
+  /// 
+  /// </summary>
+  /// <param name="bytes"></param>
+  /// <param name="length"></param>
+  /// <param name="type"></param>
+  /// <returns></returns>
   public static string ReceiveInformation(byte[] bytes, int length, out MessageType type)
   {
     string data = Encoding.ASCII.GetString(bytes, 0, length);
@@ -31,6 +42,12 @@ public class Utils
     return message;
   }
 
+  /// <summary>
+  /// 
+  /// </summary>
+  /// <param name="type"></param>
+  /// <param name="stream"></param>
+  /// <param name="message"></param>
   public static void SendInformation(MessageType type, NetworkStream stream, string message)
   {
     Byte[] sendBytes = Encoding.UTF8.GetBytes($"{type} {message}");

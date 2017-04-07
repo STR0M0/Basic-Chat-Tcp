@@ -9,9 +9,9 @@ namespace Client
     {
         private ChatClient client;
         TcpClient tcpClient = new TcpClient();
-
         public string ipAddress;
         public string userName;
+
         /// <summary>
         /// 
         /// </summary>
