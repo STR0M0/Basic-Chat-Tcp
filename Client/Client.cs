@@ -13,9 +13,8 @@ namespace Client
     private const int PORT = 500;
     TcpClient client = new TcpClient();
     public ChatForm chatForm;
-    string data;
-
     public ClientUserConnection userConnection;
+    string data;
 
     [STAThread]
     public static void Main()
@@ -24,7 +23,6 @@ namespace Client
       Application.SetCompatibleTextRenderingDefault(false);
       var client = new ChatClient();
       var form = new ConnectForm(client);
-
       Application.Run(form);
     }
     
@@ -56,25 +54,5 @@ namespace Client
     {
       Utils.SendInformation(MessageType.ChatMessage, userConnection.stream, msg);
     }
-
-    //public void ReceiveData(TcpClient connection)
-    //{
-    //  stream = connection.GetStream();
-
-    //  if(stream.CanRead)
-    //  {
-    //    this.data = Utils.ReceiveInformation(stream, connection);
-
-    //    if(data.StartsWith("User"))
-    //    {
-    //      chatForm.ReceiveUser(data);
-    //    }
-
-    //    else
-    //    {
-    //      chatForm.ReceiveMessage(data);
-    //    }
-    //  }
-    //}
   }
 }

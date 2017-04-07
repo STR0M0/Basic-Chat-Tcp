@@ -32,11 +32,18 @@ namespace Server
       WaitForConnections();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     private void WaitForConnections()
     {
       listener.BeginAcceptTcpClient(OnConnect, null);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="ar"></param>
     void OnConnect(IAsyncResult ar)
     {
       TcpClient client = listener.EndAcceptTcpClient(ar);
@@ -61,42 +68,9 @@ namespace Server
       userToConnections.Add(connection.userName, connection);
     }
 
-    ///// <summary>
-    ///// Gets message from client and decodes it into it's ASCII value 
-    ///// Prints username to console
-    ///// </summary>
-    ///// <param name="msg"></param>
-    //public void ReceiveMsg(TcpClient connection)
-    //{
-    //  stream = connection.GetStream();
-
-    //  if(stream.CanRead)
-    //  {
-    //    this.message = getUserNameForConnection(connection) + " " + Utils.ReceiveInformation(stream, connection);
-    //    Console.WriteLine(message);
-    //  }
-
-    //}
-
     /// <summary>
-    /// Matches the connection to the username that is sending information to the server
+    /// 
     /// </summary>
-    /// <param name="connection"></param>
-    /// <returns></returns>
-    //private string getUserNameForConnection(TcpClient connection)
-    //{
-    //  string userName = null;
-    //  foreach(KeyValuePair<string, TcpClient> entry in userToConnections)
-    //  {
-    //    if(connection.Equals(entry.Value))
-    //    {
-    //      userName = entry.Key;
-    //      break;
-    //    }
-    //  }
-    //  return userName;
-    //}
-
     void BroadcastUserList()
     {
       string userList = "";
@@ -107,7 +81,13 @@ namespace Server
 
       SendMsgToAll(MessageType.UserList, null, userList);
     }
-
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="user"></param>
+    /// <param name="message"></param>
     public void SendMsgToAll(
       MessageType type,
       ServerUserConnection user, 
@@ -117,15 +97,9 @@ namespace Server
 
       foreach(var connection in userToConnections)
       {
-        //if(connection.Value == user)
-        //{
-        //  continue;
-        //}
-
         Console.WriteLine($"Sending to {connection.Value.userName}");
         Utils.SendInformation(type, connection.Value.stream, message);
       }
-      // TODO Utils.SendInformation(client, message);
     }
   }
 }

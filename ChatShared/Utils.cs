@@ -36,19 +36,4 @@ public class Utils
     Byte[] sendBytes = Encoding.UTF8.GetBytes($"{type} {message}");
     stream.Write(sendBytes, 0, sendBytes.Length);
   }
-
-  ///// <summary>
-  ///// Encodes the netwrok stream into bytes and sends information
-  ///// </summary>
-  ///// <param name="data"></param>
-  //public static void SendInformation(TcpClient client, string data)
-  //{
-  //  NetworkStream stream = client.GetStream();
-
-  //  if(stream.CanWrite)
-  //  {
-  //    Byte[] sendBytes = Encoding.UTF8.GetBytes(data);
-  //    stream.Write(sendBytes, 0, sendBytes.Length);
-  //  }
-  //}
 }

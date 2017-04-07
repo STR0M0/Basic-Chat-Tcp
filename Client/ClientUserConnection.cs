@@ -6,15 +6,25 @@ using System.Net.Sockets;
 public class ClientUserConnection : UserConnection
 {
   public readonly Client.ChatClient chatClient;
-
   public string message = "";
   public string userListText;
 
+  /// <summary>
+  /// 
+  /// </summary>
+  /// <param name="client"></param>
+  /// <param name="chatClient"></param>
+  /// <param name="userName"></param>
   public ClientUserConnection(TcpClient client, Client.ChatClient chatClient, string userName) : base(client, userName)
   {
     this.chatClient = chatClient;
   }
 
+  /// <summary>
+  /// 
+  /// </summary>
+  /// <param name="type"></param>
+  /// <param name="message"></param>
   protected override void OnRead(MessageType type, string message)
   {
     if(type == MessageType.ChatMessage)
