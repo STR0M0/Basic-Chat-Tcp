@@ -22,7 +22,7 @@ namespace Client
         }
 
         /// <summary>
-        /// 
+        /// When rhe submit button on the connect form is pressed...
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

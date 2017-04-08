@@ -13,13 +13,15 @@ public class ClientUserConnection : UserConnection
   /// <param name="client"></param>
   /// <param name="chatClient"></param>
   /// <param name="userName"></param>
-  public ClientUserConnection(TcpClient client, Client.ChatClient chatClient, string userName) : base(client, userName)
+  public ClientUserConnection(TcpClient client, Client.ChatClient chatClient, string userName) : base(client, userName) // Inherits from UserConnection()
   {
     this.chatClient = chatClient;
   }
 
   /// <summary>
-  /// 
+  /// When the data is reads determine what kind of message it is 
+  /// Parse/split out the message and user; display only relevant data
+  /// TODO Do not need to keep a running list of messages; send the message over then throw it away
   /// </summary>
   /// <param name="type"></param>
   /// <param name="message"></param>
@@ -31,13 +33,13 @@ public class ClientUserConnection : UserConnection
 
       if(iSpace < 0)
       {
-        // oops?
+        // if error
         return;
       }
 
       string from = message.Substring(0, iSpace);
       string chatMessage = message.Substring(iSpace + 1, message.Length - iSpace - 1);
-      this.message += $"[{type}] [{from}] {chatMessage}{Environment.NewLine}";
+      this.message += $"[{from}]: {chatMessage}{Environment.NewLine}";
     }
     else if(type == MessageType.UserList)
     {

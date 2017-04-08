@@ -6,15 +6,18 @@ using System.Threading;
 
 namespace Server
 {
-  public class ChatServer
+  public class Server
   {
+    // This is the port that the server will be listening on 
     const int PORT = 500;
+    // This is where the usernames and their connections will be held
     readonly Dictionary<string, ServerUserConnection> userToConnections = new Dictionary<string, ServerUserConnection>();
     readonly TcpListener listener;
 
     public static void Main()
     {
-      ChatServer server = new ChatServer();
+      // Constructor for the ChatServer
+      Server server = new Server();
 
       while(true)
       {
@@ -25,7 +28,7 @@ namespace Server
     /// <summary>
     /// Listens for data from clients 
     /// </summary>
-    public ChatServer()
+    public Server()
     {
       listener = TcpListener.Create(PORT);
       listener.Start();
@@ -33,7 +36,7 @@ namespace Server
     }
 
     /// <summary>
-    /// 
+    /// Begins an asynchronous operation to accept an incoming connection attempt
     /// </summary>
     private void WaitForConnections()
     {
@@ -41,11 +44,15 @@ namespace Server
     }
 
     /// <summary>
-    /// 
+    /// This method is executed asynchronously
+    /// Connects the client to the server
+    /// Broadcasts the user to client to be displayed on the chatform
+    /// Then waits for another connection to be established
     /// </summary>
     /// <param name="ar"></param>
     void OnConnect(IAsyncResult ar)
     {
+      //Asynchronously accepts an incoming connection attempt and creates a new TcpClient to handle remote host communication.
       TcpClient client = listener.EndAcceptTcpClient(ar);
       Console.WriteLine("Connected");
 
@@ -57,19 +64,18 @@ namespace Server
     }
 
     /// <summary>
-    /// Gets username from client and decodes it into it's ASCII value
-    /// Prints username to console
+    /// Connects a user to the server and adds them to the dictionary userToConnections
     /// </summary>
     /// <param name="client"></param>
-    public void ReceiveUser(
-      TcpClient client)
+    public void ReceiveUser(TcpClient client)
     {
-      ServerUserConnection connection = new ServerUserConnection(this, client);
+      ServerUserConnection connection = new ServerUserConnection(this, client); // Constructor
       userToConnections.Add(connection.userName, connection);
     }
 
     /// <summary>
-    /// 
+    /// For each user that is connected append the userList to include that user
+    /// TODO Do not need to keep a running list of users; send the user over then throw it away
     /// </summary>
     void BroadcastUserList()
     {
@@ -83,15 +89,12 @@ namespace Server
     }
     
     /// <summary>
-    /// 
+    /// Pushes out messages to the connected clients
     /// </summary>
     /// <param name="type"></param>
     /// <param name="user"></param>
     /// <param name="message"></param>
-    public void SendMsgToAll(
-      MessageType type,
-      ServerUserConnection user, 
-      string message)
+    public void SendMsgToAll(MessageType type, ServerUserConnection user, string message)
     {
       Console.WriteLine($"{user?.userName}: {message}");
 

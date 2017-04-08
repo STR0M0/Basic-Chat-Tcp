@@ -1,38 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Net;
 using System.Net.Sockets;
 
 namespace Server
 {
-
-  public class ServerUserConnection : UserConnection
+  public class ServerUserConnection : UserConnection 
   {
-    readonly ChatServer server;
+    readonly Server server;
    
     /// <summary>
-    /// 
+    /// Facilitates connection
     /// </summary>
     /// <param name="server"></param>
     /// <param name="client"></param>
-    public ServerUserConnection(ChatServer server, TcpClient client) : base(client, GetUsername(client))
+    public ServerUserConnection(Server server, TcpClient client) : base(client, GetUsername(client)) // Inherits from UserConnection()
     {
-      
       this.server = server;
     }
     
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="client"></param>
-    /// <returns></returns>
     private static string GetUsername(TcpClient client)
     {
       NetworkStream stream = client.GetStream();
       if(stream.CanRead)
       {
-        string userName = Utils.ReceiveInformation(stream, client, out MessageType type);
+        // Receives infromation from the stream, determines MessageType, and returns username 
+        string userName = Utils.ReceiveInformation(stream, client, out MessageType type); 
         Console.WriteLine(userName);
         return userName;
       }

@@ -42,7 +42,7 @@ public abstract class UserConnection
   {
     Console.WriteLine("Read");
 
-    int result = stream.EndRead(ar); // TODO disconnect / error handling
+    int result = stream.EndRead(ar); // TODO disconnect & error handling
 
     Console.WriteLine("Read done");
     if(result <= 0)

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Net.Sockets;
-using System.Text;
 using Simple_Chat_Form_App;
-using System.Threading;
 
 namespace Client
 {
