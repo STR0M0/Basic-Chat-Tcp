@@ -35,7 +35,7 @@ public abstract class UserConnection
   }
 
   /// <summary>
-  /// 
+  /// SocketException: An existing connection was forcibly closed by the remote host
   /// </summary>
   /// <param name="ar"></param>
   void OnReadData(IAsyncResult ar)
